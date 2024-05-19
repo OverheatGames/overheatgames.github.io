@@ -1,7 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Group Games</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages. test</p>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Roblox Group Games</h1>
+            <div id="gamesList" class="columns is-multiline"></div>
+        </div>
+    </section>
+
+    <script>
+        // Replace 'YOUR_GROUP_ID' with your Roblox group ID
+        const groupId = '32762333';
+
+        // Function to fetch group games data from Roblox API
+        async function fetchGroupGames(groupId) {
+            const response = await fetch(`https://games.roblox.com/v2/groups/${groupId}/games`);
+            const data = await response.json();
+            return data.data;
+        }
+
+        // Function to display group games on the webpage
+        async function displayGroupGames() {
+            const gamesList = document.getElementById('gamesList');
+            const games = await fetchGroupGames(groupId);
+
+            games.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'column is-one-third';
+                card.innerHTML = `
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="content">
+                                <p class="title">${game.name}</p>
+                                <p>Players: ${game.playing}</p>
+                                <p>Visits: ${game.visits}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                gamesList.appendChild(card);
+            });
+        }
+
+        // Call the function to display group games when the page loads
+        window.onload = displayGroupGames;
+    </script>
 </body>
 </html>
