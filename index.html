@@ -21,13 +21,18 @@
 
     <script>
         // Replace 'YOUR_GROUP_ID' with your Roblox group ID
-        const groupId = 32762333;
+        const groupId = '32762333';
 
         // Function to fetch group games data from Roblox API
         async function fetchGroupGames(groupId) {
-            const response = await fetch(`https://games.roblox.com/v2/groups/${groupId}/games`);
-            const data = await response.json();
-            return data.data;
+            try {
+                const response = await fetch(`https://games.roblox.com/v2/groups/${groupId}/games`);
+                const data = await response.json();
+                return data.data || [];
+            } catch (error) {
+                console.error("Error fetching group games:", error);
+                return [];
+            }
         }
 
         // Function to display group games on the webpage
